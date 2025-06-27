@@ -1,7 +1,7 @@
 import type { Viewport } from "next";
 import "../styles/globals.css";
 
-import ToastProvider from "@/components/shared/toastProvider";
+import ToastProvider from "@/components/toastProvider";
 import { fontSans } from "@/config/heroUI/app/fonts";
 import { Providers } from "@/config/heroUI/providers";
 import { mergeStyles } from "@/lib/utils/styles";
