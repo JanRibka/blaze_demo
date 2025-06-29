@@ -6,11 +6,20 @@ import { User } from "@prisma/client";
 
 import AuthError from "../errors/AuthError";
 import { deleteSessionByIdUser } from "../repositories/sessionRepository";
-import { getUserByEmail } from "../repositories/userRepository";
+import { createUser, getUserByEmail } from "../repositories/userRepository";
 import { getCookieAsync } from "./cookieService";
+import { hashPassword } from "./hashService";
 import { createSession, getSessionExists } from "./sessionService";
 
-export async function verifyUser(
+export async function signUpVerifyUser(email: string): Promise<void> {
+  const user = await getUserByEmail(email);
+
+  if (user) {
+    throw new AuthError("Nelze vytvořit účet. Zkuste se přihlásit.");
+  }
+}
+
+export async function logInVerifyUser(
   email: string,
   password: string
 ): Promise<AdapterUser> {
@@ -62,4 +71,13 @@ export async function checkCredentials(
   password: string
 ): Promise<boolean> {
   return await compare(password, user.password);
+}
+
+export async function registerUser(
+  email: string,
+  password: string
+): Promise<User> {
+  const hashedPassword = await hashPassword(password);
+
+  return await createUser(email, hashedPassword);
 }

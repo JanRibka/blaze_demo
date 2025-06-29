@@ -5,7 +5,7 @@ import Credentials, {
 } from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
-import { logIn, verifyUser } from "@/lib/services/authService";
+import { logIn, logInVerifyUser } from "@/lib/services/authService";
 
 import { prisma } from "../prisma/prisma";
 import PrismaAdapter from "../prisma/PrismAdapter";
@@ -24,7 +24,7 @@ const credentials: CredentialsConfig = {
     const email = credentials.email as string;
     const password = credentials.password as string;
 
-    const user = await verifyUser(email, password);
+    const user = await logInVerifyUser(email, password);
 
     return {
       ...user,

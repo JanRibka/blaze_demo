@@ -4,8 +4,11 @@ import { useActionState, useEffect } from "react";
 
 import { logInAction } from "@/actions/auth";
 import useIsFirstRender from "@/lib/hooks/useIsFirstRender";
+import routes from "@/lib/routes/routes";
 import { addToast } from "@heroui/react";
 
+import { ClientReplace } from "../clientReplace/ClientReplace";
+import CreateAccount from "./CreateAccount";
 import LogInForm from "./LogInForm";
 
 export default function LogIn() {
@@ -22,8 +25,17 @@ export default function LogIn() {
   }, [state.error]);
 
   const showError = (errorMessage: string) => {
-    addToast({ title: "Cbyba", color: "danger", description: errorMessage });
+    addToast({ title: "Chyba", color: "danger", description: errorMessage });
   };
 
-  return <LogInForm isLoading={isLoading} action={action} />;
+  if (state.generalState === "success") {
+    return <ClientReplace to={routes.Root} />;
+  }
+
+  return (
+    <>
+      <LogInForm isLoading={isLoading} action={action} />
+      <CreateAccount />
+    </>
+  );
 }
