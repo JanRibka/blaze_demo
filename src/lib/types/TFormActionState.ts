@@ -1,5 +1,6 @@
-type TFormActionState<Error extends object> = {
-  generalState?: "success" | "error";
+type TFormActionState<Form extends object, Error extends object> = {
+  generalState: "undefined" | "success" | "error";
+  form?: Form;
   error?: Error;
 };
 

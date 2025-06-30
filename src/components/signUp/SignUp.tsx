@@ -1,41 +1,30 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
-
-import { signUpAction } from "@/actions/auth";
-import useIsFirstRender from "@/lib/hooks/useIsFirstRender";
-import routes from "@/lib/routes/routes";
-import { addToast } from "@heroui/react";
-
-import { ClientReplace } from "../clientReplace/ClientReplace";
+import SignUpForm from "./components/SignUpForm";
+import SignUpSuccess from "./components/SignUpSuccess";
+import { useSignUpAction } from "./hooks/useSignUpAction";
+import { useSignUpForm } from "./hooks/useSignUpForm";
 import LoginUser from "./LogInUser";
-import SignUpForm from "./SignUpForm";
 
 export default function SignUp() {
-  const isFirstRender = useIsFirstRender();
-
-  const [state, action, isLoading] = useActionState(signUpAction, {});
-
-  useEffect(() => {
-    if (isFirstRender || !state.error) return;
-
-    showError(state.error.general ?? "");
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.error]);
-
-  const showError = (errorMessage: string) => {
-    addToast({ title: "Chyba", color: "danger", description: errorMessage });
-  };
+  const [state, action, isLoading] = useSignUpAction();
+  const { errors, handleSubmit, handleChange } = useSignUpForm(state);
 
   if (state.generalState === "success") {
-    return <ClientReplace to={routes.LogIn} />;
+    return <SignUpSuccess />;
   }
 
   return (
-    <>
-      <SignUpForm isLoading={isLoading} action={action} />
+    <div className="space-y-8">
+      <SignUpForm
+        state={state}
+        error={errors}
+        isLoading={isLoading}
+        action={action}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+      />
       <LoginUser />
-    </>
+    </div>
   );
 }

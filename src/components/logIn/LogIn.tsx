@@ -1,41 +1,32 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
-
-import { logInAction } from "@/actions/auth";
-import useIsFirstRender from "@/lib/hooks/useIsFirstRender";
-import routes from "@/lib/routes/routes";
-import { addToast } from "@heroui/react";
-
-import { ClientReplace } from "../clientReplace/ClientReplace";
+import { LoginForm } from "./components/LogInForm";
+import { LoginSuccess } from "./components/LoginSuccess";
 import CreateAccount from "./CreateAccount";
-import LogInForm from "./LogInForm";
+import { useLoginForm } from "./hooks/useLoginForm";
+import { useLoginRedirect } from "./hooks/useLoginRedirect";
 
 export default function LogIn() {
-  const isFirstRender = useIsFirstRender();
+  const { state, action, isLoading, error, handleSubmit, handleChange } =
+    useLoginForm();
 
-  const [state, action, isLoading] = useActionState(logInAction, {});
+  const { shouldRedirect, redirectPath } = useLoginRedirect(state);
 
-  useEffect(() => {
-    if (isFirstRender || !state.error) return;
-
-    showError(state.error.general ?? "");
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.error]);
-
-  const showError = (errorMessage: string) => {
-    addToast({ title: "Chyba", color: "danger", description: errorMessage });
-  };
-
-  if (state.generalState === "success") {
-    return <ClientReplace to={routes.Root} />;
+  if (shouldRedirect) {
+    return <LoginSuccess redirectPath={redirectPath} />;
   }
 
   return (
-    <>
-      <LogInForm isLoading={isLoading} action={action} />
+    <div className="space-y-8">
+      <LoginForm
+        state={state}
+        error={error}
+        isLoading={isLoading}
+        action={action}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+      />
       <CreateAccount />
-    </>
+    </div>
   );
 }
