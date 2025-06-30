@@ -19,7 +19,8 @@ export const useLoginForm = (): UseLoginFormReturn => {
   useEffect(() => {
     if (isFirstRender || !state.error) return;
     setError(state.error);
-  }, [isFirstRender, state.error]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.error]);
 
   const handleSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {

@@ -4,9 +4,9 @@ import routes from "@/lib/routes/routes";
 
 export default function LoginUser() {
   return (
-    <section className="pt-6 border-t border-slate-200/60 dark:border-slate-700/60">
+    <section className="pt-6 border-t border-slate-200/60">
       <div className="text-center">
-        <p className="text-sm text-slate-600 dark:text-slate-400">
+        <p className="text-sm text-slate-600">
           Máte účet?{" "}
           <Link
             href={routes.LogIn}

@@ -1,21 +1,26 @@
+import { memo } from "react";
+
 import Alert from "@/components/alert/Alert";
-import { mergeStyles } from "@/lib/utils/styles";
-import { AlertProps } from "@heroui/react";
 
-type Props = AlertProps & {};
+import { useFormStyles } from "./hooks/useFormStyles";
+import { FormAlertProps } from "./types";
 
-export default function FormAlert({
-  className,
-  title,
-  color = "danger",
-  variant = "faded",
-  ...restProps
-}: Props) {
-  if (!title) return null;
+const FormAlert = memo<FormAlertProps>(
+  ({ className, title, color = "danger", variant = "faded", ...restProps }) => {
+    const { getAlertStyles } = useFormStyles();
 
-  return (
-    <div className={mergeStyles("w-full", className)}>
-      <Alert title={title} color={color} variant={variant} {...restProps} />
-    </div>
-  );
-}
+    if (!title) {
+      return null;
+    }
+
+    return (
+      <div className={getAlertStyles(className)}>
+        <Alert title={title} color={color} variant={variant} {...restProps} />
+      </div>
+    );
+  }
+);
+
+FormAlert.displayName = "FormAlert";
+
+export default FormAlert;

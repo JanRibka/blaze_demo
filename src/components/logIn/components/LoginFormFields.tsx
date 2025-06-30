@@ -44,7 +44,6 @@ export const LoginFormFields = ({ state, error }: LoginFormFieldsProps) => {
         fullWidth
         variant="faded"
         color="primary"
-        type="password"
         validationSchema={logInFormValidationSchema}
       />
     </>

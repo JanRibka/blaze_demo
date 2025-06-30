@@ -1,5 +1,7 @@
 import { InferType, string } from "yup";
 
+import TErrorGeneral from "@/lib/types/TErrorGeneral";
+
 import confirmPasswordValidationSchema from "./confirmPasswordValidationSchema";
 
 const signUpFormValidationSchema = confirmPasswordValidationSchema.shape({
@@ -17,5 +19,5 @@ export default signUpFormValidationSchema;
 
 export type TSignUpForm = InferType<typeof signUpFormValidationSchema>;
 export type TSignUpFormError = {
-  [K in keyof TSignUpForm | "general" | "timestamp"]?: string;
+  [K in keyof TSignUpForm | TErrorGeneral]?: string;
 };

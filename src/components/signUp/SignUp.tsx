@@ -1,10 +1,10 @@
 "use client";
 
+import LoginUser from "./components/LogInUser";
 import SignUpForm from "./components/SignUpForm";
 import SignUpSuccess from "./components/SignUpSuccess";
 import { useSignUpAction } from "./hooks/useSignUpAction";
 import { useSignUpForm } from "./hooks/useSignUpForm";
-import LoginUser from "./LogInUser";
 
 export default function SignUp() {
   const [state, action, isLoading] = useSignUpAction();

@@ -1,20 +1,25 @@
-import { HTMLAttributes } from "react";
+import { createElement, forwardRef, JSX } from "react";
 
-import { mergeStyles } from "@/lib/utils/styles";
+import { useFormStyles } from "./hooks/useFormStyles";
+import { FormHeadingProps } from "./types";
 
-type Props = HTMLAttributes<HTMLHeadingElement> & {};
+const FormHeading = forwardRef<HTMLHeadingElement, FormHeadingProps>(
+  ({ children, className, level = 2, ...restProps }, ref) => {
+    const { getHeadingStyles } = useFormStyles();
+    const tagName = `h${level}` as keyof JSX.IntrinsicElements;
 
-export default function FormHeading({
-  children,
-  className,
-  ...restProps
-}: Props) {
-  return (
-    <h3
-      className={mergeStyles("text-2xl font-bold text-slate-900", className)}
-      {...restProps}
-    >
-      {children}
-    </h3>
-  );
-}
+    return createElement(
+      tagName,
+      {
+        ref,
+        className: getHeadingStyles(className, level),
+        ...restProps,
+      },
+      children
+    );
+  }
+);
+
+FormHeading.displayName = "FormHeading";
+
+export default FormHeading;

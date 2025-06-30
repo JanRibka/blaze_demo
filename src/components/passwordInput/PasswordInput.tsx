@@ -1,50 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef } from "react";
 
-import EyeFilledIcon from "@/lib/icons/EyeFilledIcon";
-import EyeSlashFilledIcon from "@/lib/icons/EyeSlashFilledIcon";
-import { Input, InputProps } from "@heroui/react";
+import { Input } from "@heroui/react";
 
-type Props = InputProps & {};
+import { PasswordToggleButton } from "./components/PasswordToggleButton";
+import { usePasswordInput } from "./hooks/usePasswordInput";
+import { usePasswordVisibility } from "./hooks/usePasswordVisibility";
+import { PasswordInputProps } from "./types";
 
-export default function PasswordInput({
-  value,
-  onChange,
-  ...restProps
-}: Props) {
-  const [localValue, setLocalValue] = useState<string>(value ?? "");
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+  ({ value, onChange, ...restProps }, ref) => {
+    const { localValue, handleChange } = usePasswordInput({ value, onChange });
+    const { isVisible, toggleVisibility } = usePasswordVisibility();
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
+    return (
+      <Input
+        ref={ref}
+        value={localValue}
+        {...restProps}
+        type={isVisible ? "text" : "password"}
+        onChange={handleChange}
+        endContent={
+          <PasswordToggleButton
+            isVisible={isVisible}
+            onToggle={toggleVisibility}
+            ariaLabel="Přepnout viditelnost hesla"
+          />
+        }
+      />
+    );
+  }
+);
+PasswordInput.displayName = "PasswordInput";
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-
-    setLocalValue(value);
-    onChange?.(event);
-  };
-
-  return (
-    <Input
-      value={localValue}
-      {...restProps}
-      type={isVisible ? "text" : "password"}
-      onChange={handleChange}
-      endContent={
-        <button
-          aria-label="toggle password visibility"
-          className="focus:outline-hidden"
-          type="button"
-          onClick={toggleVisibility}
-        >
-          {isVisible ? (
-            <EyeSlashFilledIcon className="text-2xl pointer-events-none text-default-400" />
-          ) : (
-            <EyeFilledIcon className="text-2xl pointer-events-none text-default-400" />
-          )}
-        </button>
-      }
-    />
-  );
-}
+export default PasswordInput;

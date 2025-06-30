@@ -1,9 +1,27 @@
+import { forwardRef } from "react";
+
+import { useNavBarStyles } from "./hooks/useNavbarStyles";
+import { NavBarProps } from "./types";
 import UpperBar from "./UpperBar";
 
-export default function NavBar() {
-  return (
-    <header className="shadow-md" role="banner" aria-label="Horní panel">
-      <UpperBar />
-    </header>
-  );
-}
+const NavBar = forwardRef<HTMLElement, NavBarProps>(
+  ({ variant = "default", sticky = true, className, ...restProps }, ref) => {
+    const { getNavBarStyles } = useNavBarStyles();
+
+    return (
+      <header
+        ref={ref}
+        className={getNavBarStyles({ variant, sticky, className })}
+        role="banner"
+        aria-label="Hlavní navigace"
+        {...restProps}
+      >
+        <UpperBar />
+      </header>
+    );
+  }
+);
+
+NavBar.displayName = "NavBar";
+
+export default NavBar;

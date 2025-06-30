@@ -1,23 +1,48 @@
 "use client";
 
-import { signOut } from "next-auth/react";
-import { FaSignOutAlt } from "react-icons/fa";
+import Link from "next/link";
+import { forwardRef, memo } from "react";
+import { FaHome } from "react-icons/fa";
 
-export default function UpperBar() {
-  const handleSignOut = async () => {
-    await signOut();
-  };
-  return (
-    <section className="h-16 2xl:h-20 flex items-center justify-end px-6 md:px-9 transition-all duration-200 ease-linear">
-      <div className="">
-        <button
-          className=" w-full h-full text-left flex items-center gap-2"
-          onClick={handleSignOut}
-        >
-          {<FaSignOutAlt />}
-          <span className="flex-1">Odhlásit se</span>
-        </button>
-      </div>
-    </section>
-  );
-}
+import routes from "@/lib/routes/routes";
+
+import SignOutButton from "./components/SignOutButton";
+import { useNavBarStyles } from "./hooks/useNavbarStyles";
+import { UpperBarProps } from "./types";
+
+const UpperBar = memo(
+  forwardRef<HTMLElement, UpperBarProps>(({ className, ...restProps }, ref) => {
+    const { getUpperBarStyles } = useNavBarStyles();
+
+    return (
+      <section
+        ref={ref}
+        className={getUpperBarStyles(className)}
+        role="toolbar"
+        aria-label="Uživatelské akce"
+        {...restProps}
+      >
+        <div className="flex items-center">
+          <Link href={routes.Root}>
+            <FaHome className="text-2xl" />
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="h-6 w-px bg-gray-300 hidden sm:block" />
+
+          <SignOutButton
+            variant="ghost"
+            size="md"
+            showIcon={true}
+            showText={true}
+          />
+        </div>
+      </section>
+    );
+  })
+);
+
+UpperBar.displayName = "UpperBar";
+
+export default UpperBar;

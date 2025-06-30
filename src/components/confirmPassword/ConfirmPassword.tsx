@@ -1,22 +1,10 @@
-import { HTMLAttributes, useEffect, useRef, useState } from "react";
-
 import { nameof } from "@/lib/utils/nameof";
 import { mergeStyles } from "@/lib/utils/styles";
-import {
-  TSignUpForm,
-  TSignUpFormError,
-} from "@/lib/validations/schemas/signUpFormValidationSchema";
-import { validateConfirmPassword } from "@/lib/validations/validations/validateConfirmPassword";
+import { TSignUpForm } from "@/lib/validations/schemas/signUpFormValidationSchema";
 
 import PasswordInput from "../passwordInput/PasswordInput";
-
-type Props = HTMLAttributes<
-  Omit<HTMLDivElement, "children" | "isInvalid" | "errorMessage">
-> & {
-  error: TSignUpFormError;
-  valuePassword?: string;
-  valueConfirmPassword?: string;
-};
+import { useConfirmPasswordValidation } from "./hooks/useConfirmPasswordValidation";
+import { ConfirmPasswordProps } from "./types";
 
 export default function ConfirmPassword({
   valuePassword,
@@ -24,76 +12,40 @@ export default function ConfirmPassword({
   className,
   error,
   ...restProps
-}: Props) {
-  const refPassword = useRef<HTMLInputElement>(null);
-  const refConfirmPassword = useRef<HTMLInputElement>(null);
-
-  const [localPasswordErrorMessage, setLocalPasswordErrorMessage] =
-    useState<string>("");
-  const [
-    localConfirmPasswordErrorMessage,
-    setLocalConfirmPasswordErrorMessage,
-  ] = useState<string>("");
-
-  const setErrorMessage = () => {
-    const password = refPassword.current?.value || "";
-    const confirmPassword = refConfirmPassword.current?.value || "";
-
-    const data = {
-      password,
-      confirmPassword,
-    };
-
-    const validationResult = validateConfirmPassword(data);
-
-    if (!password || !validationResult?.password) {
-      setLocalPasswordErrorMessage("");
-    } else if (typeof validationResult?.password === "string") {
-      setLocalPasswordErrorMessage(validationResult.password);
-    }
-    if (!confirmPassword || !validationResult?.confirmPassword) {
-      setLocalConfirmPasswordErrorMessage("");
-    } else if (typeof validationResult?.confirmPassword === "string") {
-      setLocalConfirmPasswordErrorMessage(validationResult.confirmPassword);
-    }
-  };
-
-  useEffect(() => {
-    if (typeof error?.password === "string") {
-      setLocalPasswordErrorMessage(error.password);
-    }
-    if (typeof error?.confirmPassword === "string") {
-      setLocalConfirmPasswordErrorMessage(error?.confirmPassword);
-    }
-  }, [error]);
-
-  const handleChange = () => {
-    setErrorMessage();
-  };
+}: ConfirmPasswordProps) {
+  const {
+    passwordRef,
+    confirmPasswordRef,
+    passwordError,
+    confirmPasswordError,
+    handleChange,
+  } = useConfirmPasswordValidation({
+    error,
+  });
 
   return (
     <div className={mergeStyles("space-y-5", className)} {...restProps}>
       <PasswordInput
-        ref={refPassword}
+        ref={passwordRef}
         value={valuePassword}
         name={nameof<TSignUpForm>("password")}
         label="Heslo"
         required
-        isInvalid={!!localPasswordErrorMessage}
-        errorMessage={localPasswordErrorMessage}
+        isInvalid={!!passwordError}
+        errorMessage={passwordError}
         autoComplete="current-password"
         variant="faded"
         color="primary"
         onChange={handleChange}
       />
       <PasswordInput
-        ref={refConfirmPassword}
+        ref={confirmPasswordRef}
         value={valueConfirmPassword}
         name={nameof<TSignUpForm>("confirmPassword")}
         label="Potvrdit heslo"
         required
-        isInvalid={!!localConfirmPasswordErrorMessage}
-        errorMessage={localConfirmPasswordErrorMessage}
+        isInvalid={!!confirmPasswordError}
+        errorMessage={confirmPasswordError}
         autoComplete="new-password"
         variant="faded"
         color="primary"

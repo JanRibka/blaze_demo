@@ -1,11 +1,15 @@
 "use client";
 
 import { mergeStyles } from "@/lib/utils/styles";
-import { Button as HeroButton, ButtonProps } from "@heroui/react";
+import { Button as HeroButton } from "@heroui/react";
 
-type Props = ButtonProps & {};
+import { ButtonProps } from "./types";
 
-export default function Button({ children, className, ...restProps }: Props) {
+export default function Button({
+  children,
+  className,
+  ...restProps
+}: ButtonProps) {
   return (
     <HeroButton
       className={mergeStyles(

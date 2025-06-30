@@ -24,7 +24,6 @@ const config: Config = {
         },
         dialogBackground: "rgb(238, 238, 238)",
         pageBackground: "rgb(238, 238, 238)",
-        sideBarText: "rgb(127, 113, 132)",
       },
       lineHeight: {
         15: "3.75rem",

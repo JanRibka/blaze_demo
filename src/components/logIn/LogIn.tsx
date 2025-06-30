@@ -1,8 +1,8 @@
 "use client";
 
+import CreateAccount from "./components/CreateAccount";
 import { LoginForm } from "./components/LogInForm";
 import { LoginSuccess } from "./components/LoginSuccess";
-import CreateAccount from "./CreateAccount";
 import { useLoginForm } from "./hooks/useLoginForm";
 import { useLoginRedirect } from "./hooks/useLoginRedirect";
 
