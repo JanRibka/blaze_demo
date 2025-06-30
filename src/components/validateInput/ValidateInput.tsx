@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 
 import { Input } from "@heroui/react";
 
-import { useValidateInput } from "./hooks";
+import { useValidateInput } from "./hooks/useValidateInput";
 
 import type { ValidateInputProps } from "./types";
 const ValidateInput = <T extends object>(

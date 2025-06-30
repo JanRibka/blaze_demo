@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 
 import useIsFirstRender from "@/lib/hooks/useIsFirstRender";
 
-import { UseValidateInputProps, UseValidateInputReturn } from "./types";
-import { getErrorMessage, normalizeValue, validateInputField } from "./utils";
+import { UseValidateInputProps, UseValidateInputReturn } from "../types";
+import { getErrorMessage, normalizeValue, validateInputField } from "../utils";
 
 export const useValidateInput = <T extends object>({
   initialValue,

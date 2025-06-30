@@ -11,10 +11,7 @@ export default function FormHeading({
 }: Props) {
   return (
     <h3
-      className={mergeStyles(
-        "text-2xl font-bold text-slate-900 dark:text-slate-100",
-        className
-      )}
+      className={mergeStyles("text-2xl font-bold text-slate-900", className)}
       {...restProps}
     >
       {children}

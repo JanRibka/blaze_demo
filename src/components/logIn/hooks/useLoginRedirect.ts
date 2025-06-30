@@ -10,6 +10,7 @@ import {
 } from "@/lib/validations/schemas/logInValidationSchema";
 
 import type { UseLoginRedirectReturn } from "../types";
+
 export const useLoginRedirect = (
   state: TFormActionState<TLogInForm, TLogInFormError>
 ): UseLoginRedirectReturn => {

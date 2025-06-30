@@ -19,15 +19,11 @@ export const LoginForm = ({
   return (
     <section className="space-y-6">
       <div className="text-center space-y-2">
-        <FormHeading className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-          Přihlášení
-        </FormHeading>
-        <p className="text-sm text-slate-600 dark:text-slate-400">
-          Přihlaste se do svého účtu
-        </p>
+        <FormHeading>Přihlášení</FormHeading>
+        <p className="text-sm text-slate-600">Přihlaste se do svého účtu</p>
       </div>
 
-      <FormAlert className="mb-4" title={error.general} />
+      <FormAlert title={error.general} />
 
       <Form
         noValidate
