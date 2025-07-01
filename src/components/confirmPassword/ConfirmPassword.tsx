@@ -1,5 +1,5 @@
 import { nameof } from "@/lib/utils/nameof";
-import { mergeStyles } from "@/lib/utils/styles";
+import { cn } from "@/lib/utils/styles";
 import { TSignUpForm } from "@/lib/validations/schemas/signUpFormValidationSchema";
 
 import PasswordInput from "../passwordInput/PasswordInput";
@@ -24,7 +24,7 @@ export default function ConfirmPassword({
   });
 
   return (
-    <div className={mergeStyles("space-y-5", className)} {...restProps}>
+    <div className={cn("space-y-5", className)} {...restProps}>
       <PasswordInput
         ref={passwordRef}
         value={valuePassword}

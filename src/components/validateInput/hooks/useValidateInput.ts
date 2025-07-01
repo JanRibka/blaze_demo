@@ -58,14 +58,11 @@ export const useValidateInput = <T extends object>({
     [onChange, validateAndSetError]
   );
 
-  const handleValueChange = useCallback(
-    (value: string) => {
-      setLocalValue(value);
-      validateAndSetError(value);
-      onValueChange?.(value);
-    },
-    [onValueChange, validateAndSetError]
-  );
+  const handleValueChange = (value: string) => {
+    setLocalValue(value);
+    validateAndSetError(value);
+    onValueChange?.(value);
+  };
 
   return {
     localValue,

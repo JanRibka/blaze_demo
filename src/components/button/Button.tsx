@@ -1,6 +1,6 @@
 "use client";
 
-import { mergeStyles } from "@/lib/utils/styles";
+import { cn } from "@/lib/utils/styles";
 import { Button as HeroButton } from "@heroui/react";
 
 import { ButtonProps } from "./types";
@@ -12,7 +12,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <HeroButton
-      className={mergeStyles(
+      className={cn(
         "font-semibold tracking-tight leading-7 text-sm uppercase",
         className
       )}

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { mergeStyles } from "@/lib/utils/styles";
+import { cn } from "@/lib/utils/styles";
 
 import { NavBarProps, SignOutButtonProps } from "../types";
 
@@ -24,19 +24,14 @@ export const useNavBarStyles = () => {
 
         const stickyStyles = sticky ? "sticky top-0 z-50" : "";
 
-        return mergeStyles(
-          baseStyles,
-          variantStyles[variant],
-          stickyStyles,
-          className
-        );
+        return cn(baseStyles, variantStyles[variant], stickyStyles, className);
       },
     []
   );
 
   const getUpperBarStyles = useMemo(
     () => (className?: string) =>
-      mergeStyles(
+      cn(
         "h-14 sm:h-16 lg:h-18 xl:h-20",
         "flex items-center justify-between",
         "px-4 sm:px-6 md:px-8 lg:px-12",
@@ -69,7 +64,7 @@ export const useNavBarStyles = () => {
           lg: "px-5 py-2.5 text-base",
         };
 
-        return mergeStyles(
+        return cn(
           baseStyles,
           variantStyles[variant],
           sizeStyles[size],

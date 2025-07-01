@@ -1,18 +1,18 @@
 import { useMemo } from "react";
 
-import { mergeStyles } from "@/lib/utils/styles";
+import { cn } from "@/lib/utils/styles";
 
 export const useFormStyles = () => {
   const formBaseStyles = "space-y-6";
   const alertBaseStyles = "mb-4";
 
   const getFormStyles = useMemo(
-    () => (className?: string) => mergeStyles(formBaseStyles, className),
+    () => (className?: string) => cn(formBaseStyles, className),
     [formBaseStyles]
   );
 
   const getAlertStyles = useMemo(
-    () => (className?: string) => mergeStyles(alertBaseStyles, className),
+    () => (className?: string) => cn(alertBaseStyles, className),
     [alertBaseStyles]
   );
 
@@ -30,7 +30,7 @@ export const useFormStyles = () => {
       const levelClass = level
         ? levelStyles[level as keyof typeof levelStyles]
         : "text-2xl font-semibold";
-      return mergeStyles(levelClass, "text-gray-900 mb-4", className);
+      return cn(levelClass, "text-gray-900 mb-4", className);
     },
     []
   );
