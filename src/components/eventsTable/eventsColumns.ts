@@ -1,25 +1,26 @@
 import TTableColumn from "@/lib/types/TTableColumn";
 
-const allUsersColumns: TTableColumn[] = [
+const eventsColumns: TTableColumn[] = [
   {
     label: "Nadpis",
     key: "title",
     allowsSorting: true,
   },
   {
-    label: "Začíná",
+    label: "Začátek",
     key: "startAt",
-    allowsSorting: true,
+    allowsSorting: false,
   },
   {
-    label: "Končí",
+    label: "Konec",
     key: "endAt",
-    allowsSorting: true,
+    allowsSorting: false,
   },
   {
     label: "Akce",
     key: "actions",
+    width: 100,
   },
 ];
 
-export default allUsersColumns;
+export default eventsColumns;

@@ -26,6 +26,5 @@ export interface UseValidateInputReturn {
   localValue: string;
   localErrorMessage: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleValueChange: (value: string) => void;
   isInvalid: boolean;
 }

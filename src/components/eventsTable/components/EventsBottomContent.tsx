@@ -1,15 +1,17 @@
+"use client";
+
 import { memo, useCallback } from "react";
 
 import { Pagination } from "@heroui/react";
 
-import { useEventsTableContext } from "./EventsTableContext";
+import { useEventsTableContext } from "../EventsTableContext";
 
 type Props = {
   pages: number;
-  totalUsers: number;
+  totalEvents: number;
 };
 
-const EventsBottomContent = memo(({ pages, totalUsers }: Props) => {
+const EventsBottomContent = memo(({ pages, totalEvents }: Props) => {
   const { page, setPage, pageSize, setPageSize } = useEventsTableContext();
 
   const onPageSizeChange = useCallback(
@@ -21,16 +23,16 @@ const EventsBottomContent = memo(({ pages, totalUsers }: Props) => {
     []
   );
 
-  function getUserCountLabel(): string {
-    if (totalUsers === 1) return "událost";
-    if (totalUsers < 5) return "události";
+  function getEventCountLabel(): string {
+    if (totalEvents === 1) return "událost";
+    if (totalEvents < 5) return "události";
     return "událostí";
   }
 
   return (
     <div className="p-2 flex justify-center md:justify-between items-center">
       <span className="hidden md:block text-default-400 text-small">
-        Celkem {totalUsers} {getUserCountLabel()}
+        Celkem {totalEvents} {getEventCountLabel()}
       </span>
 
       {pages > 1 && page <= pages && (

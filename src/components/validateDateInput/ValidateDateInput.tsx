@@ -1,10 +1,10 @@
 import { forwardRef } from "react";
 
-import { Input } from "@heroui/react";
+import { DateInput } from "@heroui/date-input";
 
-import { useValidateInput } from "./hooks/useValidateInput";
+import { useValidateDateInput } from "./hooks/useValidateDateInput";
 
-import type { ValidateInputProps } from "./types";
+import type { ValidateDateInputProps } from "./types";
 
 const ValidateInput = <T extends object>(
   {
@@ -12,31 +12,28 @@ const ValidateInput = <T extends object>(
     error,
     name,
     onChange,
-    onValueChange,
     validationSchema,
     ...restProps
-  }: ValidateInputProps<T>,
+  }: ValidateDateInputProps<T>,
   ref?: React.Ref<HTMLInputElement>
 ) => {
   const { localValue, localErrorMessage, handleChange, isInvalid } =
-    useValidateInput({
-      initialValue: value,
+    useValidateDateInput({
+      initialValue: value ?? null,
       name,
       validationSchema,
       error,
       onChange,
-      onValueChange,
     });
 
   return (
-    <Input
+    <DateInput
       ref={ref}
       value={localValue}
       name={name}
       isInvalid={isInvalid}
       errorMessage={localErrorMessage}
       onChange={handleChange}
-      autoComplete={restProps.autoComplete}
       autoCorrect={restProps.autoCorrect}
       autoCapitalize={restProps.autoCapitalize}
       {...restProps}
@@ -46,7 +43,7 @@ const ValidateInput = <T extends object>(
 
 // Generic forwardRef wrapper to maintain type safety
 const ValidateInputWithRef = forwardRef(ValidateInput) as <T extends object>(
-  props: ValidateInputProps<T> & { ref?: React.Ref<HTMLInputElement> }
+  props: ValidateDateInputProps<T> & { ref?: React.Ref<HTMLInputElement> }
 ) => React.ReactElement;
 
 export default ValidateInputWithRef;

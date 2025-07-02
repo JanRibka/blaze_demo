@@ -2,28 +2,35 @@ import { useCallback, useEffect, useState } from "react";
 
 import useIsFirstRender from "@/lib/hooks/useIsFirstRender";
 
-import { UseValidateInputProps, UseValidateInputReturn } from "../types";
-import { getErrorMessage, normalizeValue, validateInputField } from "../utils";
+import {
+  UseValidateDateInputProps,
+  UseValidateDateInputReturn,
+} from "../types";
+import { getErrorMessage, validateDateInputField } from "../utils";
 
-export const useValidateInput = <T extends object>({
+import type { DateValue } from "@internationalized/date";
+
+export const useValidateDateInput = <T extends object>({
   initialValue,
   name,
   validationSchema,
   error,
   onChange,
-}: UseValidateInputProps<T>): UseValidateInputReturn => {
+}: UseValidateDateInputProps<T>): UseValidateDateInputReturn => {
   const isFirstRender = useIsFirstRender();
 
-  const [localValue, setLocalValue] = useState<string>(
-    normalizeValue(initialValue)
-  );
+  const [localValue, setLocalValue] = useState<DateValue | null>(initialValue);
   const [localErrorMessage, setLocalErrorMessage] = useState<string>("");
 
   const validateAndSetError = useCallback(
     (value: string) => {
       if (!name) return;
 
-      const errorMessage = validateInputField(validationSchema, name, value);
+      const errorMessage = validateDateInputField(
+        validationSchema,
+        name,
+        value
+      );
       setLocalErrorMessage(errorMessage);
     },
     [validationSchema, name]
@@ -41,19 +48,15 @@ export const useValidateInput = <T extends object>({
   useEffect(() => {
     if (isFirstRender) return;
 
-    const normalizedValue = normalizeValue(initialValue);
-    setLocalValue(normalizedValue);
-
+    setLocalValue(initialValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValue]);
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
-
-      setLocalValue(newValue);
-      validateAndSetError(newValue);
-      onChange?.(event);
+    (value: DateValue | null) => {
+      setLocalValue(value);
+      validateAndSetError(value?.toString() ?? "");
+      onChange?.(value);
     },
     [onChange, validateAndSetError]
   );

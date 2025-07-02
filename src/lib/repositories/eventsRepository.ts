@@ -2,6 +2,7 @@ import { prisma } from "@/config/prisma/prisma";
 import { Event } from "@prisma/client";
 
 import { PaginatedDTO } from "../dTOs/PaginatedDTO";
+import { EventData } from "../types/data/eventData";
 import { PaginatedData } from "../types/data/paginatedData";
 
 export async function getEventsByIdUserPaginated(
@@ -36,17 +37,47 @@ export async function getEventsByIdUserPaginated(
   return { items: events, totalCount };
 }
 
-export async function insertEvent(event: Event): Promise<Event> {
-  return await prisma.event.create({
-    data: event,
+export async function getEventByTitle(
+  title: string,
+  idUser: string
+): Promise<Event | null> {
+  return await prisma.event.findFirst({
+    where: {
+      title: title,
+      idUser: idUser,
+    },
   });
 }
 
-export async function updateEvent({
-  idEvent,
-  idUser,
-  ...rest
-}: Partial<Event> & Pick<Event, "idEvent" | "idUser">): Promise<void> {
+export async function getEventByIdEvent(
+  idEvent: number,
+  idUser: string
+): Promise<Event | null> {
+  return await prisma.event.findFirst({
+    where: {
+      idEvent: idEvent,
+      idUser: idUser,
+    },
+  });
+}
+
+export async function insertEvent(
+  idUser: string,
+  eventData: EventData
+): Promise<Event> {
+  return await prisma.event.create({
+    data: {
+      idUser,
+      ...eventData,
+    },
+  });
+}
+
+export async function updateEvent(
+  idEvent: number,
+  idUser: string,
+  eventData: EventData
+): Promise<void> {
   await prisma.event.update({
     where: {
       idEvent_idUser: {
@@ -54,9 +85,7 @@ export async function updateEvent({
         idUser,
       },
     },
-    data: {
-      ...rest,
-    },
+    data: eventData,
   });
 }
 

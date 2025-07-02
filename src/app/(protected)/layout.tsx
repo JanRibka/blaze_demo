@@ -15,9 +15,9 @@ export default async function ProtectedLayout({ children }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <NavBar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="h-full container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <PageTitle>Události</PageTitle>
         <PageContent>{children}</PageContent>
       </main>

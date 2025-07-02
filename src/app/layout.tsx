@@ -1,6 +1,7 @@
 import type { Viewport } from "next";
 import "../styles/globals.css";
 
+import ToastProvider from "@/components/toastProvider/ToastProvider";
 import { fontSans } from "@/config/heroUI/app/fonts";
 import { Providers } from "@/config/heroUI/providers";
 import { cn } from "@/lib/utils/styles";
@@ -26,6 +27,11 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+          <ToastProvider
+            placement="top-center"
+            toastOffset={60}
+            toastProps={{ timeout: 5000, shouldShowTimeoutProgress: true }}
+          />
           {children}
         </Providers>
       </body>
