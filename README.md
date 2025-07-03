@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Přehled projektu
 
-## Getting Started
+Tento projekt je webová aplikace pro správu uživatelských událostí s uživatelskou autentizací.  
+Implementace využívá moderní fullstack framework Next.js s TypeScriptem a databází PostgreSQL.
 
-First, run the development server:
+---
+
+## Spuštění projektu
+
+### 1. Klonování repozitáře
+
+```bash
+git clone https://github.com/JanRibka/blaze_demo
+cd blaze_demo
+```
+
+### 2. Instalace závislostí
+
+```bash
+npm install
+```
+
+### 3. Nastavení proměnných prostředí
+
+V `.env` souboru nastav následující proměnné:
+
+- `DATABASE_URL` – připojovací řetězec k databázi PostgreSQL, který používá Prisma. Můžeš ho získat z poskytovatele databáze (např. Neon.tech).
+- `AUTH_SECRET` – tajný klíč pro autentizaci používaný Auth.js (NextAuth). Generuj bezpečný řetězec, například příkazem:
+
+```bash
+npx auth secret
+```
+
+### 4. Migrace databáze
+
+```bash
+npm run prisma:migrate_prod
+```
+
+### 5. Spuštění aplikace
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Odůvodnění klíčových voleb
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js**  
+  Umožňuje jednoduše kombinovat frontend i backend v jednom projektu, což výrazně usnadňuje vývoj, správu i nasazení aplikace.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **TypeScript**  
+  Přináší bezpečnost díky typům, lepší vývojářskou ergonomii, snadnější refaktoring a vyšší spolehlivost při práci v týmu.
 
-## Learn More
+- **PostgreSQL**  
+  Robustní a spolehlivá relační databáze vhodná pro složitější datové struktury. V kombinaci s Neon.tech umožňuje rychlý a bezstarostný cloudový hosting.
 
-To learn more about Next.js, take a look at the following resources:
+- **Prisma ORM**  
+  Moderní ORM pro TypeScript/Node.js, který výrazně zjednodušuje práci s databází – podporuje automatickou generaci klienta, migrace a typovou bezpečnost.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **NextAuth.js (Auth.js)**  
+  Standardní a dobře integrovatelné řešení pro autentizaci v Next.js. Podporuje session-based přihlášení, bezpečně uložené v HTTP-only cookies.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Yup**  
+  Flexibilní validační knihovna použitelná jak na frontend, tak backend, čímž zajišťuje jednotnou validaci vstupních dat.
 
-## Deploy on Vercel
+- **Tailwind CSS**  
+  Utility-first CSS framework, který umožňuje rychlé a efektivní vytváření moderního a responzivního UI bez potřeby psát vlastní CSS.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Vercel**  
+  Hostingová platforma optimalizovaná pro Next.js, která poskytuje jednoduché CI/CD, škálování a snadné nasazení s podporou pro edge funkcionalitu.
