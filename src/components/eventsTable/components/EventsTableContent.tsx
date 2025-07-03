@@ -23,6 +23,7 @@ export const EventsTableContent = ({
 }: EventsTableContentProps) => {
   return (
     <Table
+      suppressContentEditableWarning
       isHeaderSticky
       aria-label="Události"
       topContent={topContent}

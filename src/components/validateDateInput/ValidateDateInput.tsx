@@ -30,7 +30,7 @@ const ValidateInput = <T extends object>(
     });
 
   return (
-    <I18nProvider locale="fr-FR">
+    <I18nProvider locale="cs-CZ">
       <DateInput
         ref={ref}
         value={localValue}
