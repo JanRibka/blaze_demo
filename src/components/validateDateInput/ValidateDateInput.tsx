@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 
 import { DateInput } from "@heroui/date-input";
+import { I18nProvider } from "@react-aria/i18n";
 
 import { useValidateDateInput } from "./hooks/useValidateDateInput";
 
@@ -29,17 +30,19 @@ const ValidateInput = <T extends object>(
     });
 
   return (
-    <DateInput
-      ref={ref}
-      value={localValue}
-      name={name}
-      isInvalid={isInvalid}
-      errorMessage={localErrorMessage}
-      onChange={handleChange}
-      autoCorrect={restProps.autoCorrect}
-      autoCapitalize={restProps.autoCapitalize}
-      {...restProps}
-    />
+    <I18nProvider locale="fr-FR">
+      <DateInput
+        ref={ref}
+        value={localValue}
+        name={name}
+        isInvalid={isInvalid}
+        errorMessage={localErrorMessage}
+        onChange={handleChange}
+        autoCorrect={restProps.autoCorrect}
+        autoCapitalize={restProps.autoCapitalize}
+        {...restProps}
+      />
+    </I18nProvider>
   );
 };
 

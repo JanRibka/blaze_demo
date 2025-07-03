@@ -40,7 +40,7 @@ export default function InsertEventModalContent({
         <ValidateInput
           ref={refTitle}
           name={nameof<TEventForm>("title")}
-          label="Nadpis"
+          label="Předmět"
           required
           error={errors}
           autoComplete="off"

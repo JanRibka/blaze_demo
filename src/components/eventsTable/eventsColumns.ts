@@ -2,7 +2,7 @@ import TTableColumn from "@/lib/types/TTableColumn";
 
 const eventsColumns: TTableColumn[] = [
   {
-    label: "Nadpis",
+    label: "Předmět",
     key: "title",
     allowsSorting: true,
   },
