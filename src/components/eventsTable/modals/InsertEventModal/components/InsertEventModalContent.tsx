@@ -16,6 +16,7 @@ type Props = {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   errors: TEventFormError;
   isPending?: boolean;
+  suppressOnChangeOnError: boolean;
 };
 
 export default function InsertEventModalContent({
@@ -24,6 +25,7 @@ export default function InsertEventModalContent({
   onSubmit,
   errors,
   isPending,
+  suppressOnChangeOnError,
 }: Props) {
   const refTitle = useRef<HTMLInputElement>(null);
 
@@ -34,12 +36,11 @@ export default function InsertEventModalContent({
       className="flex flex-col gap-5"
       noValidate
     >
-      <div>
+      <div className="space-y-4">
         <ValidateInput
           ref={refTitle}
           name={nameof<TEventForm>("title")}
           label="Nadpis"
-          className="mb-4"
           required
           error={errors}
           autoComplete="off"
@@ -51,7 +52,6 @@ export default function InsertEventModalContent({
         <ValidateInput
           name={nameof<TEventForm>("description")}
           label="Popis"
-          className="mb-4"
           required
           error={errors}
           autoComplete="off"
@@ -63,24 +63,26 @@ export default function InsertEventModalContent({
         <ValidateDateInput
           name={nameof<TEventForm>("startAt")}
           label="Začíná"
-          className="mb-4"
           error={errors}
           fullWidth
           variant="faded"
           color="primary"
           granularity="minute"
+          hourCycle={24}
           validationSchema={eventFormValidationSchema}
+          suppressOnChangeOnError={suppressOnChangeOnError}
         />
         <ValidateDateInput
           name={nameof<TEventForm>("endAt")}
           label="Končí"
-          className="mb-4"
           error={errors}
           fullWidth
           variant="faded"
           color="primary"
           granularity="minute"
+          hourCycle={24}
           validationSchema={eventFormValidationSchema}
+          suppressOnChangeOnError={suppressOnChangeOnError}
         />
         <ValidateInput
           name={nameof<TEventForm>("location")}

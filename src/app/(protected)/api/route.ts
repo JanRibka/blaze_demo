@@ -1,7 +1,6 @@
 import { requireAuth } from "@/lib/auth/session";
 import { getUserEvents } from "@/lib/services/eventsService";
 import { handleApiError } from "@/lib/utils/error";
-import { capitalizeFirstLetter } from "@/lib/utils/string";
 
 export async function GET(request: Request) {
   try {
@@ -11,12 +10,8 @@ export async function GET(request: Request) {
     const idUser = session?.user?.id;
     const page = parseInt(searchParams.get("page") || "1", 10);
     const pageSize = parseInt(searchParams.get("pageSize") || "50", 10);
-    let orderByField = searchParams.get("orderByField") ?? undefined;
+    const orderByField = searchParams.get("orderByField") ?? undefined;
     const orderDirection = searchParams.get("orderDirection") ?? undefined;
-
-    if (orderByField) {
-      orderByField = capitalizeFirstLetter(orderByField);
-    }
 
     const data = await getUserEvents(idUser!, {
       page,

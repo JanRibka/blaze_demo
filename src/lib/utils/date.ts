@@ -30,6 +30,17 @@ export const parseDateTimeToDateValue = (
       if (isNaN(date.getTime())) {
         return null;
       }
+    } else if (
+      typeof value === "object" &&
+      value !== null &&
+      "calendar" in value &&
+      "era" in value &&
+      "year" in value &&
+      "month" in value &&
+      "day" in value
+    ) {
+      // Optionally, refine this check to match DateValue's structure more closely
+      return value;
     } else {
       return null;
     }

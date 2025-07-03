@@ -11,7 +11,7 @@ export default function PageContent({
     <div
       className={cn(
         // Base styles
-        "bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700",
+        "flex-1 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700",
         "p-6 sm:p-8 lg:p-10",
         // Gradient border effect
         "relative before:absolute before:inset-0 before:rounded-2xl before:p-[1px]",

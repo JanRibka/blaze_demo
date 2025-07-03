@@ -1,86 +1,45 @@
-import { useTransition } from "react";
+import React, { memo } from "react";
 
-import { updateEventAction } from "@/actions/events";
 import CancelConfirmModal from "@/components/cancelConfirmModal/CancelConfirmModal";
-import { EventDTO } from "@/lib/dTOs/EventDTO";
-import { addToast } from "@heroui/react";
 
-import EditEventModalContent from "./EditEventModalContent";
-import useEditEventValidation from "./useEditEventValidation";
+import EditEventModalContent from "./components/EditEventModalContent";
+import { useEditEventModal } from "./hooks/useEditEventModal";
+import { EditEventModalProps } from "./types";
 
-type Props = {
-  event: EventDTO;
-  isOpen: boolean;
-  onOpenChange: () => void;
-  handleSuccess: () => void;
-};
+const EditEventModal: React.FC<EditEventModalProps> = memo(
+  ({ event, isOpen, onOpenChange, onSuccess }) => {
+    const {
+      error,
+      isPending,
+      suppressOnChangeOnError,
+      handleSubmitEditEvent,
+      handleCloseEditEvent,
+      handleEditEventAction,
+    } = useEditEventModal({ event, onSuccess, onOpenChange });
 
-export default function EditEventModal({
-  event,
-  isOpen,
-  onOpenChange,
-  handleSuccess,
-}: Props) {
-  // Validations
-  const { error, setError, validate } = useEditEventValidation();
+    return (
+      <CancelConfirmModal
+        isOpen={isOpen}
+        placement="center"
+        onOpenChange={handleCloseEditEvent}
+        headerLabel="Upravit událost"
+        hideFooter={true}
+        isDismissable={false}
+      >
+        <EditEventModalContent
+          event={event}
+          onCancel={handleCloseEditEvent}
+          action={handleEditEventAction}
+          onSubmit={handleSubmitEditEvent}
+          errors={error}
+          isPending={isPending}
+          suppressOnChangeOnError={suppressOnChangeOnError}
+        />
+      </CancelConfirmModal>
+    );
+  }
+);
 
-  // Handlers
-  const handleSubmitEditEvent = (event: React.FormEvent<HTMLFormElement>) => {
-    validate(event);
-  };
+EditEventModal.displayName = "EditEventModal";
 
-  const handleCloseEditEvent = () => {
-    setError({});
-    onOpenChange();
-  };
-
-  // Optimistic update
-  const [isPending, startTransition] = useTransition();
-
-  const handleEditEventAction = async (formData: FormData) => {
-    startTransition(async () => {
-      const response = await updateEventAction(event.idEvent, formData);
-
-      if (!response.success) {
-        if (typeof response.error === "object") {
-          setError(response.error);
-          return;
-        }
-
-        addToast({
-          title: "Chyba",
-          description: response.error as string,
-          color: "danger",
-        });
-      } else {
-        handleSuccess();
-        addToast({
-          title: "Úspěch",
-          description: "Událost byla úspěšně upravena",
-          color: "success",
-        });
-        onOpenChange();
-      }
-    });
-  };
-
-  return (
-    <CancelConfirmModal
-      isOpen={isOpen}
-      placement="center"
-      onOpenChange={handleCloseEditEvent}
-      headerLabel="Upravit událost"
-      hideFooter
-      isDismissable={false}
-    >
-      <EditEventModalContent
-        event={event}
-        onCancel={handleCloseEditEvent}
-        action={handleEditEventAction}
-        onSubmit={handleSubmitEditEvent}
-        errors={error}
-        isPending={isPending}
-      />
-    </CancelConfirmModal>
-  );
-}
+export default EditEventModal;

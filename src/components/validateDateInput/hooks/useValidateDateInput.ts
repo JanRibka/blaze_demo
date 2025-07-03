@@ -16,6 +16,7 @@ export const useValidateDateInput = <T extends object>({
   validationSchema,
   error,
   onChange,
+  suppressOnChangeOnError,
 }: UseValidateDateInputProps<T>): UseValidateDateInputReturn => {
   const isFirstRender = useIsFirstRender();
 
@@ -54,11 +55,13 @@ export const useValidateDateInput = <T extends object>({
 
   const handleChange = useCallback(
     (value: DateValue | null) => {
+      if (suppressOnChangeOnError) return;
+
       setLocalValue(value);
       validateAndSetError(value?.toString() ?? "");
       onChange?.(value);
     },
-    [onChange, validateAndSetError]
+    [suppressOnChangeOnError, onChange, validateAndSetError]
   );
 
   return {

@@ -12,6 +12,7 @@ export interface ValidateDateInputProps<T extends object>
   validationSchema: Yup.ObjectSchema<T>;
   error: Record<string, string>;
   onChange?: (value: DateValue | null) => void;
+  suppressOnChangeOnError: boolean;
 }
 
 export interface UseValidateDateInputProps<T extends object> {
@@ -20,6 +21,7 @@ export interface UseValidateDateInputProps<T extends object> {
   validationSchema: Yup.ObjectSchema<T>;
   error: Record<string, string>;
   onChange?: (value: DateValue | null) => void;
+  suppressOnChangeOnError: boolean;
 }
 
 export interface UseValidateDateInputReturn {

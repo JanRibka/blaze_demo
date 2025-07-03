@@ -16,7 +16,7 @@ import {
 } from "@/lib/utils/tableSettings";
 import { SortDescriptor } from "@heroui/react";
 
-import { GRID_NAME } from "./gridName";
+import { GRID_NAME } from "../gridName";
 
 type EventsTableContext = {
   page: number;

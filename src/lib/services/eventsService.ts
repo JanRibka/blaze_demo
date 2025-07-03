@@ -49,9 +49,9 @@ export async function attemptInsertEvent(idUser: string, eventData: EventData) {
 }
 
 export async function attemptDeleteEvent(idEvent: number, idUser: string) {
-  const unitGroup = await getEventByIdEvent(idEvent, idUser);
+  const event = await getEventByIdEvent(idEvent, idUser);
 
-  if (!unitGroup) {
+  if (!event) {
     throw new NotFoundError();
   }
 

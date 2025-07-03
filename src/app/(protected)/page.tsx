@@ -1,9 +1,9 @@
+import { EventsTableContextProvider } from "@/components/eventsTable/components/EventsTableContext";
 import EventsTable from "@/components/eventsTable/EventsTable";
-import { EventsTableContextProvider } from "@/components/eventsTable/EventsTableContext";
 
 export default async function EventsPage() {
   return (
-    <div>
+    <div className="h-full">
       <EventsTableContextProvider>
         <EventsTable />
       </EventsTableContextProvider>

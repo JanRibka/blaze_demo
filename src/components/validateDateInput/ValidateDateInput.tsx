@@ -13,6 +13,7 @@ const ValidateInput = <T extends object>(
     name,
     onChange,
     validationSchema,
+    suppressOnChangeOnError,
     ...restProps
   }: ValidateDateInputProps<T>,
   ref?: React.Ref<HTMLInputElement>
@@ -24,6 +25,7 @@ const ValidateInput = <T extends object>(
       validationSchema,
       error,
       onChange,
+      suppressOnChangeOnError,
     });
 
   return (

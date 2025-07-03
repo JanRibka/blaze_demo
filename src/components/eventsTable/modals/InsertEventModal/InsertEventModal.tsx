@@ -1,81 +1,44 @@
-import { useTransition } from "react";
+import React, { memo } from "react";
 
-import { insertEventAction } from "@/actions/events";
 import CancelConfirmModal from "@/components/cancelConfirmModal/CancelConfirmModal";
-import { addToast } from "@heroui/react";
 
-import InsertEventModalContent from "./InsertEventModalContent";
-import useInsertEventValidation from "./useInsertEventValidation";
+import InsertEventModalContent from "./components/InsertEventModalContent";
+import { useInsertEventModal } from "./hooks/useInsertEventModal";
+import { InsertEventModalProps } from "./types";
 
-type Props = {
-  isOpen: boolean;
-  onOpenChange: () => void;
-  handleSuccess: () => void;
-};
+const InsertEventModal: React.FC<InsertEventModalProps> = memo(
+  ({ isOpen, onOpenChange, onSuccess }) => {
+    const {
+      error,
+      isPending,
+      suppressOnChangeOnError,
+      handleSubmitInsertEvent,
+      handleCloseInsertEvent,
+      handleInsertEventAction,
+    } = useInsertEventModal({ onSuccess, onOpenChange });
 
-export default function InsertEventModal({
-  isOpen,
-  onOpenChange,
-  handleSuccess,
-}: Props) {
-  // Validations
-  const { error, setError, validate } = useInsertEventValidation();
+    return (
+      <CancelConfirmModal
+        isOpen={isOpen}
+        placement="center"
+        onOpenChange={handleCloseInsertEvent}
+        headerLabel="Přidat událost"
+        hideFooter={true}
+        isDismissable={false}
+      >
+        <InsertEventModalContent
+          onCancel={handleCloseInsertEvent}
+          action={handleInsertEventAction}
+          onSubmit={handleSubmitInsertEvent}
+          errors={error}
+          isPending={isPending}
+          suppressOnChangeOnError={suppressOnChangeOnError}
+        />
+      </CancelConfirmModal>
+    );
+  }
+);
 
-  // Handlers
-  const handleSubmitInsertEvent = (event: React.FormEvent<HTMLFormElement>) => {
-    validate(event);
-  };
+InsertEventModal.displayName = "InsertEventModal";
 
-  const handleCloseInsertEvent = () => {
-    setError({});
-    onOpenChange();
-  };
-
-  const [isPending, startTransition] = useTransition();
-
-  const handleInsertEventAction = async (formData: FormData) => {
-    startTransition(async () => {
-      const response = await insertEventAction(formData);
-
-      if (!response.success) {
-        if (typeof response.error === "object") {
-          setError(response.error);
-          return;
-        }
-
-        addToast({
-          title: "Chyba",
-          description: response.error as string,
-          color: "danger",
-        });
-      } else {
-        handleSuccess();
-        addToast({
-          title: "Úspěch",
-          description: "Událost byla úspěšně přidána",
-          color: "success",
-        });
-        onOpenChange();
-      }
-    });
-  };
-
-  return (
-    <CancelConfirmModal
-      isOpen={isOpen}
-      placement="center"
-      onOpenChange={handleCloseInsertEvent}
-      headerLabel="Přidat událost"
-      hideFooter
-      isDismissable={false}
-    >
-      <InsertEventModalContent
-        onCancel={handleCloseInsertEvent}
-        action={handleInsertEventAction}
-        onSubmit={handleSubmitInsertEvent}
-        errors={error}
-        isPending={isPending}
-      />
-    </CancelConfirmModal>
-  );
-}
+export default InsertEventModal;

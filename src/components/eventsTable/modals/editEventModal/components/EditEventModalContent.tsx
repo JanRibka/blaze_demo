@@ -9,18 +9,10 @@ import { parseDateTimeToDateValue } from "@/lib/utils/date";
 import { nameof } from "@/lib/utils/nameof";
 import eventFormValidationSchema, {
   TEventForm,
-  TEventFormError,
 } from "@/lib/validations/schemas/eventFormValidationSchema";
 import { DateValue } from "@heroui/react";
 
-type Props = {
-  event: EventDTO;
-  onCancel: () => void;
-  action: (formData: FormData) => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  errors: TEventFormError;
-  isPending?: boolean;
-};
+import { EditEventModalContentProps } from "../types";
 
 export default function EditEventModalContent({
   event,
@@ -29,15 +21,12 @@ export default function EditEventModalContent({
   onSubmit,
   errors,
   isPending,
-}: Props) {
+  suppressOnChangeOnError,
+}: EditEventModalContentProps) {
   const refTitle = useRef<HTMLInputElement>(null);
 
-  const [formData, setFormData] = useState<TEventForm>({
-    title: event.title,
-    description: event.description,
-    startAt: event.startAt,
-    endAt: event.endAt,
-    location: event.location,
+  const [formData, setFormData] = useState<EventDTO>({
+    ...event,
   });
 
   const handleFieldChange = (
@@ -57,13 +46,12 @@ export default function EditEventModalContent({
       className="flex flex-col gap-5"
       noValidate
     >
-      <div>
+      <div className="space-y-4">
         <ValidateInput
           ref={refTitle}
           name={nameof<TEventForm>("title")}
           value={formData.title}
           label="Nadpis"
-          className="mb-4"
           required
           error={errors}
           autoComplete="off"
@@ -77,7 +65,6 @@ export default function EditEventModalContent({
           name={nameof<TEventForm>("description")}
           value={formData.description}
           label="Popis"
-          className="mb-4"
           required
           error={errors}
           autoComplete="off"
@@ -91,7 +78,6 @@ export default function EditEventModalContent({
           name={nameof<TEventForm>("startAt")}
           value={parseDateTimeToDateValue(formData.startAt)}
           label="Začíná"
-          className="mb-4"
           error={errors}
           fullWidth
           variant="faded"
@@ -99,12 +85,12 @@ export default function EditEventModalContent({
           granularity="minute"
           validationSchema={eventFormValidationSchema}
           onChange={(value) => handleFieldChange("startAt", value)}
+          suppressOnChangeOnError={suppressOnChangeOnError}
         />
         <ValidateDateInput
           name={nameof<TEventForm>("endAt")}
           value={parseDateTimeToDateValue(formData.endAt)}
           label="Končí"
-          className="mb-4"
           error={errors}
           fullWidth
           variant="faded"
@@ -112,12 +98,12 @@ export default function EditEventModalContent({
           granularity="minute"
           validationSchema={eventFormValidationSchema}
           onChange={(value) => handleFieldChange("endAt", value)}
+          suppressOnChangeOnError={suppressOnChangeOnError}
         />
         <ValidateInput
           name={nameof<TEventForm>("location")}
           value={formData.location ?? ""}
           label="Umístění"
-          className=""
           required
           error={errors}
           autoComplete="off"
@@ -128,6 +114,7 @@ export default function EditEventModalContent({
           onChange={(e) => handleFieldChange("location", e.target.value)}
         />
       </div>
+
       <div className="flex py-2 px-1 justify-between">
         <Button color="danger" variant="flat" onPress={onCancel}>
           Zrušit

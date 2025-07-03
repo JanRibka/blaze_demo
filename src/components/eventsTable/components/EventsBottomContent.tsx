@@ -4,7 +4,7 @@ import { memo, useCallback } from "react";
 
 import { Pagination } from "@heroui/react";
 
-import { useEventsTableContext } from "../EventsTableContext";
+import { useEventsTableContext } from "./EventsTableContext";
 
 type Props = {
   pages: number;
