@@ -11,6 +11,10 @@ Implementace využívá moderní fullstack framework Next.js s TypeScriptem a da
 
 ```bash
 git clone https://github.com/JanRibka/blaze_demo
+```
+
+```bash
+
 cd blaze_demo
 ```
 
