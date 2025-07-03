@@ -1,9 +1,9 @@
 import { useCallback, useRef, useTransition } from "react";
 
 import { insertEventAction } from "@/actions/events";
+import { ActionResponse } from "@/lib/types/error";
 
-import { ActionResponse } from "../types";
-import { handleActionResponse } from "../utils";
+import { handleActionResponse } from "../../../../../lib/utils/actionResponse";
 import useInsertEventValidation from "./useInsertEventValidation";
 
 interface UseInsertEventModalProps {
@@ -45,7 +45,8 @@ export const useInsertEventModal = ({
             response,
             onSuccess,
             setError,
-            onOpenChange
+            onOpenChange,
+            "Událost byla úspěšně vytvořena"
           );
 
           // Reset suppress flag regardless of success/failure

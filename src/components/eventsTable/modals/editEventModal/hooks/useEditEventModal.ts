@@ -1,9 +1,10 @@
 import { useCallback, useRef, useTransition } from "react";
 
 import { updateEventAction } from "@/actions/events";
+import { ActionResponse } from "@/lib/types/error";
+import { handleActionResponse } from "@/lib/utils/actionResponse";
 
-import { ActionResponse, UseEditEventModalProps } from "../types";
-import { handleActionResponse } from "../utils";
+import { UseEditEventModalProps } from "../types";
 import useEditEventValidation from "./useEditEventValidation";
 
 export const useEditEventModal = ({
@@ -42,7 +43,8 @@ export const useEditEventModal = ({
             response,
             onSuccess,
             setError,
-            onOpenChange
+            onOpenChange,
+            "Událost byla úspěšně upravena"
           );
 
           // Reset suppress flag regardless of success/failure

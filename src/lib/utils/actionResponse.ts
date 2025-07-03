@@ -1,15 +1,15 @@
 import { addToast } from "@heroui/react";
 
-import { ActionResponse, ToastOptions } from "./types";
+import { ActionResponse, ToastOptions } from "../types/error";
 
 export const showToast = (options: ToastOptions): void => {
   addToast(options);
 };
 
-export const showSuccessToast = (): void => {
+export const showSuccessToast = (message: string): void => {
   showToast({
     title: "Úspěch",
-    description: "Událost byla úspěšně upravena",
+    description: message,
     color: "success",
   });
 };
@@ -32,7 +32,8 @@ export const handleActionResponse = (
   response: ActionResponse,
   onSuccess: () => void,
   onError: (error: Record<string, string>) => void,
-  onModalClose: () => void
+  onModalClose: () => void,
+  successMessage: string
 ): boolean => {
   if (!response.success) {
     if (isValidationError(response.error)) {
@@ -45,7 +46,7 @@ export const handleActionResponse = (
   }
 
   onSuccess();
-  showSuccessToast();
+  showSuccessToast(successMessage);
   onModalClose();
   return true;
 };

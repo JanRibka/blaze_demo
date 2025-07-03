@@ -1,20 +1,14 @@
 import Button from "@/components/button/Button";
 import Form from "@/components/form/Form";
-import { EventDTO } from "@/lib/dTOs/EventDTO";
 
-type Props = {
-  event: EventDTO;
-  onCancel: () => void;
-  action: (formData: FormData) => void;
-  isPending?: boolean;
-};
+import { DeleteEventModalContentProps } from "../types";
 
 export default function DeleteEventModalContent({
   event,
   onCancel,
   action,
   isPending,
-}: Props) {
+}: DeleteEventModalContentProps) {
   return (
     <Form action={action} className="flex flex-col gap-5" noValidate>
       <p>
