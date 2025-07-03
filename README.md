@@ -31,6 +31,10 @@ V `.env` souboru nastav následující proměnné:
 npx auth secret
 ```
 
+> ℹ️ **Poznámka:**  
+> Příkaz `npx auth secret` vygeneruje `AUTH_SECRET` a automaticky ho zapíše do souboru `.env.local`.  
+> Pokud aplikace používá pouze `.env`, je potřeba tento řádek ručně zkopírovat do `.env` souboru:
+
 ### 4. Migrace databáze
 
 ```bash
@@ -48,11 +52,8 @@ npm run dev
 - **Next.js**  
   Umožňuje jednoduše kombinovat frontend i backend v jednom projektu, což výrazně usnadňuje vývoj, správu i nasazení aplikace.
 
-- **TypeScript**  
-  Přináší bezpečnost díky typům, lepší vývojářskou ergonomii, snadnější refaktoring a vyšší spolehlivost při práci v týmu.
-
-- **PostgreSQL**  
-  Robustní a spolehlivá relační databáze vhodná pro složitější datové struktury. V kombinaci s Neon.tech umožňuje rychlý a bezstarostný cloudový hosting.
+- **Neon (PostgreSQL hosting)**  
+  Moderní cloudová platforma pro PostgreSQL s podporou škálování, okamžitých preview databází a rozdělené architektury (compute/storage). Umožňuje snadné nastavení databáze, skvělou integraci s moderními vývojářskými nástroji a bezstarostný hosting zdarma pro menší projekty.
 
 - **Prisma ORM**  
   Moderní ORM pro TypeScript/Node.js, který výrazně zjednodušuje práci s databází – podporuje automatickou generaci klienta, migrace a typovou bezpečnost.
