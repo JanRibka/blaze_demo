@@ -42,10 +42,6 @@ npx auth secret
 ### 4. Migrace databáze
 
 ```bash
-npm run prisma:generate
-```
-
-```bash
 npm run prisma:migrate_prod
 ```
 
