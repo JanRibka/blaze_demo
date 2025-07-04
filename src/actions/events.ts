@@ -7,6 +7,7 @@ import {
   attemptInsertEvent,
   attemptUpdateEvent,
 } from "@/lib/services/eventsService";
+import { toUTC } from "@/lib/utils/date";
 import {
   getConflictErrorFromError,
   getErrorMessageFromError,
@@ -130,15 +131,17 @@ export async function updateEventAction(
     const description = formData.get(
       nameof<TEventForm>("description")
     ) as string;
-    const startAt = formData.get(nameof<TEventForm>("startAt")) as string;
-    const endAt = formData.get(nameof<TEventForm>("endAt")) as string;
+    const startAt = toUTC(
+      formData.get(nameof<TEventForm>("startAt")) as string
+    );
+    const endAt = toUTC(formData.get(nameof<TEventForm>("endAt")) as string);
     const location = formData.get(nameof<TEventForm>("location")) as string;
 
     await attemptUpdateEvent(idEvent, session?.user?.id ?? "", {
       title,
       description,
-      startAt: new Date(startAt),
-      endAt: new Date(endAt),
+      startAt: startAt,
+      endAt: endAt,
       location: location ?? null,
     });
 

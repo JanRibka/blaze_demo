@@ -2,11 +2,11 @@ model Event {
     idEvent     Int      @id @default(autoincrement()) @db.Integer
     title       String   @db.VarChar(50)
     description String   @db.VarChar(255)
-    startAt     DateTime @db.Timestamp(0)
-    endAt       DateTime @db.Timestamp(0)
+    startAt     DateTime @db.Timestamptz(0)
+    endAt       DateTime @db.Timestamptz(0)
     location    String?  @db.VarChar(100)
-    createdAt   DateTime @default(now()) @db.Timestamp(0)
-    updatedAt   DateTime @updatedAt @db.Timestamp(0)
+    createdAt   DateTime @default(now()) @db.Timestamptz(0)
+    updatedAt   DateTime @updatedAt @db.Timestamptz(0)
     idUser      String   @db.VarChar(25)
 
     user User @relation(fields: [idUser], references: [idUser], onDelete: Cascade)

@@ -79,3 +79,25 @@ export const formatDateTime = (
 
   return format(date, pFormat);
 };
+
+export function toUTC(date: Date | string): Date {
+  const dateObj = typeof date === "string" ? new Date(date) : date;
+
+  if (isNaN(dateObj.getTime())) {
+    throw new Error("Invalid date provided");
+  }
+
+  return new Date(dateObj.toISOString());
+}
+
+export function getUTCTimestamp(date: Date): number {
+  return Date.UTC(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds()
+  );
+}
