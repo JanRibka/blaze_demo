@@ -51,6 +51,58 @@ npm run prisma:migrate_prod
 npm run dev
 ```
 
+## Databázové schéma
+
+```
+          ╔════════════════════════════════╗
+          ║             User               ║
+          ╠════════════════════════════════╣
+          ║ idUser     : String (PK)       ║
+          ║ email      : String (UNIQUE)   ║
+          ║ password   : String            ║
+          ╚══════╦══════════════════╦══════╝
+                 ║                  ║
+        ┌────────┘                  └────────┐
+        ▼                                    ▼
+╔══════════════════════════╗     ╔════════════════════════════════════╗
+║         Session          ║     ║              Event                 ║
+╠══════════════════════════╣     ╠════════════════════════════════════╣
+║ idSession    : Int (PK)  ║     ║ idEvent     : Int (PK)             ║
+║ sessionToken : String(U) ║     ║ title       : String (UNIQUE*)     ║
+║ userId       : String FK ║     ║ idUser      : String FK            ║
+║ expires      : DateTime  ║     ║ description : String               ║
+║ createdAt    : DateTime  ║     ║ startAt     : DateTime             ║
+╚══════════════════════════╝     ║ endAt       : DateTime             ║
+                                 ║ location    : String?              ║
+                                 ║ createdAt   : DateTime             ║
+                                 ║ updatedAt   : DateTime             ║
+                                 ╚════════════════════════════════════╝
+```
+
+
+### Omezení a indexy
+
+#### 🧑‍💼 User
+- `email` je **unikátní**
+- `idUser` je **primární klíč**
+
+#### 🔐 Session
+- `idSession` je **primární klíč**
+- `sessionToken` je **unikátní**
+- `userId` je **cizí klíč** odkazující na `User.idUser`
+- **onDelete: Cascade** – při smazání uživatele se smažou i jeho session
+
+#### 📆 Event
+- `idEvent` je **primární klíč**
+- `title + idUser` tvoří **unikátní kombinaci**
+- `idUser` je **indexovaný** a zároveň **cizí klíč**
+- **onDelete: Cascade** – při smazání uživatele se smažou i jeho události
+
+
+📌 *Poznámka:* Kombinovaná unikátnost `Event.title + idUser` umožňuje, aby více uživatelů mělo události se stejným názvem, ale **jeden uživatel** ne.
+
+
+
 ## Odůvodnění klíčových voleb
 
 - **Next.js**  
