@@ -87,7 +87,8 @@ export function toUTC(date: Date | string): Date {
     throw new Error("Invalid date provided");
   }
 
-  return new Date(getUTCTimestamp(dateObj));
+  return new Date(dateObj.getTime());
+  // return new Date(getUTCTimestamp(dateObj));
   // return new Date(dateObj.toISOString());
 }
 
