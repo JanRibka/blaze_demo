@@ -87,9 +87,17 @@ export function toUTC(date: Date | string): Date {
     throw new Error("Invalid date provided");
   }
 
-  if (dateObj.getTimezoneOffset() === 0) {
-    return new Date(dateObj.getTime() + dateObj.getTimezoneOffset() * 60000);
-  }
+  // Interpretuj jako český čas a převeď na UTC
+  const isoString = dateObj.toISOString().slice(0, 19); // "2024-01-15T14:00:00"
+  const czechTime = new Date(isoString); // Bez timezone
 
-  return new Date(dateObj.getTime());
+  // Převést přes Prague timezone
+  const utcTime = new Date(
+    czechTime.toLocaleString("sv-SE", {
+      timeZone: "Europe/Prague",
+    })
+  );
+
+  const offset = czechTime.getTime() - utcTime.getTime();
+  return new Date(czechTime.getTime() + offset);
 }

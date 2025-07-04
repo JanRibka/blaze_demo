@@ -131,6 +131,7 @@ export async function updateEventAction(
     const description = formData.get(
       nameof<TEventForm>("description")
     ) as string;
+
     const startAt = toUTC(
       formData.get(nameof<TEventForm>("startAt")) as string
     );
