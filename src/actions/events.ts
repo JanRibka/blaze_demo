@@ -39,8 +39,10 @@ export async function insertEventAction(
     const description = formData.get(
       nameof<TEventForm>("description")
     ) as string;
-    const startAt = formData.get(nameof<TEventForm>("startAt")) as string;
-    const endAt = formData.get(nameof<TEventForm>("endAt")) as string;
+    const startAt = toUTC(
+      formData.get(nameof<TEventForm>("startAt")) as string
+    );
+    const endAt = toUTC(formData.get(nameof<TEventForm>("endAt")) as string);
     const location = formData.get(nameof<TEventForm>("location")) as string;
 
     const event = await attemptInsertEvent(session?.user?.id ?? "", {
